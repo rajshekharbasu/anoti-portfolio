@@ -1,0 +1,35 @@
+@theme {
+  --color-paper: #f7f1e8;
+  --color-ink: #3b2a26;
+  --color-muted: #5e463f;
+  --color-pink: #f4c6d3;
+  --color-card: #fffaf3;
+  --color-wood: #6b4332;
+  --font-serif: "Fraunces", "Iowan Old Style", Palatino, "Palatino Linotype", serif;
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+}
+
+@font-face {
+  font-family: "If This Finds You";
+  src: url("/fonts/IfThisFindsYou-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-paper: #f7f1e8;
+  --color-ink: #3b2a26;
+  --color-muted: #5e463f;
+  --color-pink: #f4c6d3;
+  --color-card: #fffaf3;
+  --color-wood: #6b4332;
+  --color-letter: #fff8ef;
+  --color-envelope: #f0ddc8;
+  --color-envelope-flap: #e4cbb2;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --shadow-paper: 0 18px 40px rgba(59, 42, 38, 0.14);
+  --font-serif: "Fraunces", "Iowan Old Style", Palatino, "Palatino Linotype", serif;
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+}
