@@ -29,9 +29,10 @@ type Drag = {
 
 type LibrarySceneProps = {
   editMode: boolean;
+  onViewLetter: () => void;
 };
 
-export function LibraryScene({ editMode }: LibrarySceneProps) {
+export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
   const slug = useMatch("/project/:slug")?.params.slug;
   const navigate = useNavigate();
   const [search] = useSearchParams();
@@ -291,6 +292,10 @@ export function LibraryScene({ editMode }: LibrarySceneProps) {
               reduced={reduced}
               onAdvance={() => setLineIndex((current) => current + 1)}
               onClose={() => setDialogue(false)}
+              onViewLetter={() => {
+                setDialogue(false);
+                onViewLetter();
+              }}
             />
           ) : null}
         </AnimatePresence>

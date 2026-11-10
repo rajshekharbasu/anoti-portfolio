@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site } from "../content/site";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { useSiteSound } from "../hooks/useSound";
@@ -6,18 +6,20 @@ import { gifDurationMs } from "../lib/gifTiming";
 
 type EnvelopeIntroProps = {
   onEnter: () => void;
+  replay?: boolean;
 };
 
 type Phase = "sealed" | "opening" | "reading";
 
 const frameClass = "block w-full mix-blend-darken";
 
-export function EnvelopeIntro({ onEnter }: EnvelopeIntroProps) {
+export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
   const reduced = useReducedMotion();
   const { play } = useSiteSound();
-  const [phase, setPhase] = useState<Phase>("sealed");
+  const [phase, setPhase] = useState<Phase>(replay && !reduced ? "opening" : replay ? "reading" : "sealed");
   const [gifMs, setGifMs] = useState(3010);
   const [showButton, setShowButton] = useState(false);
+  const playedReplay = useRef(false);
   const paragraphs = site.openingStatement.split(/\n+/).filter((line) => line.trim().length > 0);
 
   useEffect(() => {
@@ -29,6 +31,16 @@ export function EnvelopeIntro({ onEnter }: EnvelopeIntroProps) {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!replay || reduced || phase !== "opening") return;
+    if (!playedReplay.current) {
+      playedReplay.current = true;
+      play("rustle");
+    }
+    const timeout = window.setTimeout(() => setPhase("reading"), Math.max(400, gifMs - 40));
+    return () => window.clearTimeout(timeout);
+  }, [replay, reduced, phase, gifMs, play]);
 
   useEffect(() => {
     if (phase !== "reading") return;
@@ -49,14 +61,22 @@ export function EnvelopeIntro({ onEnter }: EnvelopeIntroProps) {
   }
 
   return (
-    <div className="relative grid min-h-dvh place-items-center px-5 py-16">
-      <button
-        type="button"
-        className="press fixed top-4 left-4 z-[90] font-sans text-sm underline decoration-ink/30 underline-offset-4"
-        onClick={(event) => finishIntro(event, onEnter)}
-      >
-        {site.ui.skipIntro}
-      </button>
+    <div
+      className={
+        replay
+          ? "fixed inset-0 z-[90] grid place-items-center bg-paper px-5 py-16"
+          : "relative grid min-h-dvh place-items-center px-5 py-16"
+      }
+    >
+      {replay ? null : (
+        <button
+          type="button"
+          className="press fixed top-4 left-4 z-[90] font-sans text-sm underline decoration-ink/30 underline-offset-4"
+          onClick={(event) => finishIntro(event, onEnter)}
+        >
+          {site.ui.skipIntro}
+        </button>
+      )}
 
       <div className="flex w-[min(760px,92vw)] flex-col items-center">
         <div className="relative w-full">

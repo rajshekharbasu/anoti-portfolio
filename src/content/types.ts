@@ -87,6 +87,7 @@ export type SiteContent = {
   ui: {
     clickToOpen: string;
     enterLibrary: string;
+    viewLetter: string;
     skipIntro: string;
     shelfLabel: string;
     sayHi: string;

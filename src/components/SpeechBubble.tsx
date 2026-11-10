@@ -11,6 +11,7 @@ type SpeechBubbleProps = {
   reduced: boolean;
   onAdvance: () => void;
   onClose: () => void;
+  onViewLetter: () => void;
 };
 
 export function SpeechBubble({
@@ -19,6 +20,7 @@ export function SpeechBubble({
   reduced,
   onAdvance,
   onClose,
+  onViewLetter,
 }: SpeechBubbleProps) {
   const text = lineText(line);
   const links = typeof line === "string" ? [] : line.links;
@@ -124,6 +126,13 @@ export function SpeechBubble({
         {done && canContinue ? (
           <p className="mt-3 font-sans text-[11px] text-muted">{site.ui.clickToContinue}</p>
         ) : null}
+        <button
+          type="button"
+          className="press mt-3 inline-flex min-h-11 items-center font-sans text-sm underline decoration-ink/40 underline-offset-4"
+          onClick={onViewLetter}
+        >
+          {site.ui.viewLetter}
+        </button>
       </div>
     </motion.div>
   );

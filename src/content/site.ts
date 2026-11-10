@@ -59,6 +59,7 @@ export const site = {
   ui: {
     clickToOpen: "click to open",
     enterLibrary: "Enter the library →",
+    viewLetter: "Read the letter",
     skipIntro: "Skip intro",
     shelfLabel: "bookshelf",
     sayHi: "say hi",

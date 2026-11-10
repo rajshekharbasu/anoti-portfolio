@@ -37,6 +37,7 @@ function Experience() {
   const [loopMs, setLoopMs] = useState(-1);
   const [cover, setCover] = useState(true);
   const [phase, setPhase] = useState<"intro" | "library">("intro");
+  const [letterOpen, setLetterOpen] = useState(false);
 
   useEffect(() => {
     document.title = site.name;
@@ -84,7 +85,10 @@ function Experience() {
   return (
     <>
       {!booting && phase === "intro" ? <EnvelopeIntro onEnter={enterLibrary} /> : null}
-      {!booting && phase === "library" ? <LibraryScene editMode={editMode} /> : null}
+      {!booting && phase === "library" ? (
+        <LibraryScene editMode={editMode} onViewLetter={() => setLetterOpen(true)} />
+      ) : null}
+      {letterOpen ? <EnvelopeIntro replay onEnter={() => setLetterOpen(false)} /> : null}
       {cover ? (
         <LoadingScreen leaving={!booting} loopMs={loopMs} onExited={() => setCover(false)} />
       ) : null}
