@@ -10,7 +10,7 @@ export const projects = [
     shelf: {
       image: "/assets/books/shelf/book-01.png",
       x: 21.2,
-      y: 45.6,
+      y: 53.2,
       width: 3.5,
       height: 15.6,
       rotation: 0,
@@ -47,7 +47,7 @@ export const projects = [
     shelf: {
       image: "/assets/books/shelf/book-02.png",
       x: 25.6,
-      y: 45.6,
+      y: 53.2,
       width: 3.5,
       height: 15.6,
       rotation: -1.5,
@@ -82,7 +82,7 @@ export const projects = [
     shelf: {
       image: "/assets/books/shelf/book-03.png",
       x: 30,
-      y: 45.6,
+      y: 53.2,
       width: 3.4,
       height: 15.6,
       rotation: 1,
@@ -114,7 +114,7 @@ export const projects = [
     shelf: {
       image: "/assets/books/shelf/book-04.png",
       x: 34.3,
-      y: 45.6,
+      y: 53.2,
       width: 3.6,
       height: 15.6,
       rotation: 0,
@@ -149,7 +149,7 @@ export const projects = [
     shelf: {
       image: "/assets/books/shelf/book-05.png",
       x: 22,
-      y: 76,
+      y: 83.6,
       width: 16,
       height: 6.4,
       rotation: -2,

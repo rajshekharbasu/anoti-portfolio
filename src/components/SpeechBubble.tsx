@@ -8,7 +8,6 @@ import { useFocusTrap } from "../hooks/useFocusTrap";
 type SpeechBubbleProps = {
   line: DialogueLine;
   canContinue: boolean;
-  mobile: boolean;
   reduced: boolean;
   onAdvance: () => void;
   onClose: () => void;
@@ -17,7 +16,6 @@ type SpeechBubbleProps = {
 export function SpeechBubble({
   line,
   canContinue,
-  mobile,
   reduced,
   onAdvance,
   onClose,
@@ -70,23 +68,11 @@ export function SpeechBubble({
       aria-label={site.name}
       ref={bubbleRef}
       tabIndex={-1}
-      className={
-        mobile
-          ? "absolute left-1/2 top-[92%] z-40 w-[min(78cqi,320px)] outline-none"
-          : "absolute top-[2%] right-[62%] z-40 w-[min(28cqi,280px)] outline-none"
-      }
-      style={{ transformOrigin: mobile ? "top center" : "90% 100%" }}
-      initial={
-        reduced
-          ? { opacity: 0 }
-          : { opacity: 0, transform: mobile ? "translateX(-50%) scale(0.96)" : "scale(0.96)" }
-      }
-      animate={{ opacity: 1, transform: mobile ? "translateX(-50%) scale(1)" : "scale(1)" }}
-      exit={
-        reduced
-          ? { opacity: 0 }
-          : { opacity: 0, transform: mobile ? "translateX(-50%) scale(0.98)" : "scale(0.98)" }
-      }
+      className="fixed top-[18%] right-5 z-[80] w-[min(300px,32vw)] outline-none max-[767px]:top-[24%] max-[767px]:w-[min(240px,46vw)]"
+      style={{ transformOrigin: "left center" }}
+      initial={reduced ? { opacity: 0 } : { opacity: 0, transform: "scale(0.96)" }}
+      animate={{ opacity: 1, transform: "scale(1)" }}
+      exit={reduced ? { opacity: 0 } : { opacity: 0, transform: "scale(0.98)" }}
       transition={
         reduced
           ? { duration: 0.15 }

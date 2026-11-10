@@ -14,7 +14,6 @@ import { projects, projectBySlug } from "../content/projects";
 import { site } from "../content/site";
 import type { ShelfPlacement } from "../content/types";
 import { warmImages } from "../hooks/usePreload";
-import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 
 type Drag = {
@@ -37,7 +36,6 @@ export function LibraryScene({ editMode }: LibrarySceneProps) {
   const navigate = useNavigate();
   const [search] = useSearchParams();
   const reduced = useReducedMotion();
-  const mobile = useMediaQuery("(max-width: 767px)");
   const stageRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<Drag | null>(null);
   const tipTimer = useRef(0);
@@ -199,19 +197,9 @@ export function LibraryScene({ editMode }: LibrarySceneProps) {
       ) : null}
       <Stage stageRef={stageRef}>
         {site.ambient.dust && !reduced ? <DustParticles /> : null}
-        <h1 className="absolute top-[5%] left-[4%] z-10 font-serif text-[6.4cqi] leading-none font-medium">
+        <h1 className="absolute top-[12%] left-[4%] z-10 font-serif text-[6.4cqi] leading-none font-medium">
           {site.name}
         </h1>
-        <p
-          className="absolute z-10 font-serif text-[2.1cqi] italic"
-          style={{
-            left: `${site.bookshelf.x}%`,
-            top: `${site.bookshelf.y}%`,
-            transform: "translateY(-140%)",
-          }}
-        >
-          {site.ui.shelfLabel}
-        </p>
         <div
           className="pointer-events-none absolute z-0"
           style={{
@@ -300,7 +288,6 @@ export function LibraryScene({ editMode }: LibrarySceneProps) {
               key="bubble"
               line={line}
               canContinue={lineIndex < site.dialogue.length - 1}
-              mobile={mobile}
               reduced={reduced}
               onAdvance={() => setLineIndex((current) => current + 1)}
               onClose={() => setDialogue(false)}

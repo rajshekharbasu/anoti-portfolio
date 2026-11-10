@@ -23,9 +23,9 @@ export const site = {
     idleFallback: "/assets/scene/character-idle.png",
     talking: "/assets/scene/character-talking.gif",
     alt: "Anoti, waving from the bookshelf",
-    x: 57,
-    y: -3,
-    width: 22,
+    x: 50,
+    y: 10,
+    width: 18,
   },
   wall: {
     src: "/assets/kirby.GIF",
@@ -39,7 +39,7 @@ export const site = {
   bookshelf: {
     src: "/assets/scene/bookshelf.png",
     x: 16,
-    y: 36,
+    y: 43.6,
     width: 54,
   },
   assets: {
