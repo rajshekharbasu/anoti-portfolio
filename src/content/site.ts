@@ -29,8 +29,9 @@ export const site = {
   },
   wall: {
     src: "/assets/kirby.GIF",
-    x: 18,
-    width: 50,
+    frame: "/assets/ui/wall-frame.png",
+    x: 22,
+    width: 36,
   },
   loadingAnimation: "/assets/loading/new%20intro.GIF",
   loadingFallback: "/assets/loading/loading-last.png",

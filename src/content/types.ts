@@ -66,6 +66,7 @@ export type SiteContent = {
   };
   wall: {
     src: string;
+    frame: string;
     x: number;
     width: number;
   };

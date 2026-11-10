@@ -9,7 +9,6 @@ import { markIntroSeen, readIntroSeen } from "../lib/session";
 import { EnvelopeIntro } from "../scenes/EnvelopeIntro";
 import { LibraryScene } from "../scenes/LibraryScene";
 import { HOLD_MS, LoadingScreen } from "../scenes/LoadingScreen";
-import { SoundToggle } from "../components/SoundToggle";
 
 export function App() {
   return (
@@ -86,7 +85,6 @@ function Experience() {
     <>
       {!booting && phase === "intro" ? <EnvelopeIntro onEnter={enterLibrary} /> : null}
       {!booting && phase === "library" ? <LibraryScene editMode={editMode} /> : null}
-      {!booting ? <SoundToggle /> : null}
       {cover ? (
         <LoadingScreen leaving={!booting} loopMs={loopMs} onExited={() => setCover(false)} />
       ) : null}

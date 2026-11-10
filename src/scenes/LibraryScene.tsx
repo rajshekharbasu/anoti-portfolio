@@ -217,16 +217,23 @@ export function LibraryScene({ editMode }: LibrarySceneProps) {
           style={{
             left: `${site.wall.x}%`,
             width: `${site.wall.width}%`,
-            bottom: `${100 - site.bookshelf.y}%`,
+            bottom: `${100 - site.bookshelf.y + 3}%`,
           }}
         >
-          <span className="isolate block overflow-hidden bg-paper">
-            <img
-              src={site.wall.src}
-              alt=""
-              className="block h-auto w-full origin-center scale-[1.03] mix-blend-darken"
-            />
-          </span>
+          <div className="relative">
+            <div
+              className="absolute overflow-hidden"
+              style={{ left: "9.2%", top: "23.4%", width: "81.4%", height: "47.4%" }}
+            >
+              <img
+                src={site.wall.src}
+                alt=""
+                className="absolute bottom-0 w-full max-w-none object-cover object-bottom"
+                style={{ height: "200%" }}
+              />
+            </div>
+            <img src={site.wall.frame} alt="" className="relative block h-auto w-full" />
+          </div>
         </div>
         <div
           className="absolute z-[1]"
