@@ -3,6 +3,9 @@ import { site } from "../content/site";
 
 const HOLD_MS = 2000;
 
+// The drawing sits in a wide band inside a taller transparent frame.
+const CROP = { canvasW: 2752, canvasH: 2064, x: 222, y: 870, w: 2322, h: 466 };
+
 type LoadingScreenProps = {
   leaving: boolean;
   loopMs: number;
@@ -10,16 +13,19 @@ type LoadingScreenProps = {
 };
 
 export function LoadingScreen({ leaving, loopMs, onExited }: LoadingScreenProps) {
-  const [holding, setHolding] = useState(loopMs <= 0);
+  const [holding, setHolding] = useState(false);
 
   useEffect(() => {
-    if (loopMs <= 0) {
+    if (loopMs < 0) return;
+    if (loopMs === 0) {
       setHolding(true);
       return;
     }
     const timeout = window.setTimeout(() => setHolding(true), loopMs);
     return () => window.clearTimeout(timeout);
   }, [loopMs]);
+
+  const src = holding ? site.loadingLastFrame : site.loadingAnimation;
 
   return (
     <div
@@ -29,11 +35,22 @@ export function LoadingScreen({ leaving, loopMs, onExited }: LoadingScreenProps)
         if (event.propertyName === "opacity" && leaving) onExited();
       }}
     >
-      <img
-        src={holding ? site.loadingLastFrame : site.loadingAnimation}
-        alt=""
-        className="h-auto max-h-[68vh] w-[min(68vw,760px)] object-contain"
-      />
+      <div
+        className="relative overflow-hidden"
+        style={{ width: "min(78vw, 1040px)", aspectRatio: `${CROP.w} / ${CROP.h}` }}
+      >
+        <img
+          key={src}
+          src={src}
+          alt=""
+          className="absolute max-w-none"
+          style={{
+            width: `${(CROP.canvasW / CROP.w) * 100}%`,
+            left: `${(-CROP.x / CROP.w) * 100}%`,
+            top: `${(-CROP.y / CROP.h) * 100}%`,
+          }}
+        />
+      </div>
       <span className="sr-only">Loading</span>
     </div>
   );

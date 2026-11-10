@@ -32,8 +32,8 @@ export const site = {
     x: 18,
     width: 50,
   },
-  loadingAnimation: "/assets/loading/loading.png",
-  loadingFallback: "/assets/loading/loading.png",
+  loadingAnimation: "/assets/loading/new%20intro.GIF",
+  loadingFallback: "/assets/loading/loading-last.png",
   loadingLastFrame: "/assets/loading/loading-last.png",
   bookshelf: {
     src: "/assets/scene/bookshelf.png",

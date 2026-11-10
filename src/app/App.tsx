@@ -35,9 +35,7 @@ function Experience() {
   slugRef.current = slug;
   forceRef.current = forceIntro;
   const [booting, setBooting] = useState(true);
-  const [loopMs, setLoopMs] = useState(() =>
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 2000,
-  );
+  const [loopMs, setLoopMs] = useState(-1);
   const [cover, setCover] = useState(true);
   const [phase, setPhase] = useState<"intro" | "library">("intro");
 
@@ -51,11 +49,11 @@ function Experience() {
     void (async () => {
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const [introMs] = await Promise.all([gifDurationMs(site.loadingAnimation), preloadAssets(urls)]);
-      const playClip = !reduced && introMs > 0;
-      if (!cancelled) setLoopMs(playClip ? introMs : 0);
-      const hold = reduced ? 800 : introMs + HOLD_MS;
-      const remain = hold - (performance.now() - started);
-      if (remain > 0) await wait(remain);
+      const elapsed = performance.now() - started;
+      const remainPlay = reduced ? 0 : Math.max(0, introMs - elapsed);
+      if (!cancelled) setLoopMs(remainPlay);
+      const hold = reduced ? 800 : remainPlay + HOLD_MS;
+      if (hold > 0) await wait(hold);
       if (cancelled) return;
       const skip = Boolean(slugRef.current) || (!forceRef.current && readIntroSeen());
       setPhase(skip ? "library" : "intro");
