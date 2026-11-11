@@ -12,6 +12,7 @@ type EnvelopeIntroProps = {
 type Phase = "sealed" | "opening" | "reading";
 
 const frameClass = "block w-full mix-blend-darken";
+const stillClass = "block w-full";
 
 export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
   const reduced = useReducedMotion();
@@ -64,8 +65,8 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
     <div
       className={
         replay
-          ? "fixed inset-0 z-[90] grid place-items-center bg-paper px-5 py-16"
-          : "relative grid min-h-dvh place-items-center px-5 py-16"
+          ? "fixed inset-0 z-[90] grid place-items-center overflow-hidden bg-paper px-5 py-8"
+          : "relative grid h-svh place-items-center overflow-hidden px-5 py-8"
       }
     >
       {replay ? null : (
@@ -78,11 +79,11 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
         </button>
       )}
 
-      <div className="flex w-[min(760px,92vw)] flex-col items-center">
+      <div className="envelope-fit flex flex-col items-center">
         <div className="relative w-full">
           {phase === "sealed" ? (
             <button type="button" className="press bob w-full" aria-label={site.ui.clickToOpen} onClick={open}>
-              <Frame src={site.assets.envelopeFirst} />
+              <Frame src={site.assets.envelopeFirst} still />
             </button>
           ) : null}
           {phase === "opening" ? <Frame src={`${site.assets.envelopeOpen}?once=1`} /> : null}
@@ -128,10 +129,10 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
   );
 }
 
-function Frame({ src }: { src: string }) {
+function Frame({ src, still = false }: { src: string; still?: boolean }) {
   return (
     <span className="isolate block bg-paper">
-      <img src={src} alt="" className={frameClass} />
+      <img src={src} alt="" className={still ? stillClass : frameClass} />
     </span>
   );
 }
