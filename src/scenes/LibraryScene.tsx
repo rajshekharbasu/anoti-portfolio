@@ -15,6 +15,7 @@ import { site } from "../content/site";
 import type { ShelfPlacement } from "../content/types";
 import { warmImages } from "../hooks/usePreload";
 import { useReducedMotion } from "../hooks/useReducedMotion";
+import { msUntilNextTimeOfDay, timeOfDay, type TimeOfDay } from "../lib/timeOfDay";
 
 type Drag = {
   id: string;
@@ -56,12 +57,25 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
   const [tinyBooks, setTinyBooks] = useState(false);
   const [tipId, setTipId] = useState<string | null>(null);
   const [tipInstant, setTipInstant] = useState(false);
+  const [lampLevel, setLampLevel] = useState(1);
+  const [partOfDay, setPartOfDay] = useState<TimeOfDay>(() => timeOfDay(new Date()));
   const openProject = slug ? projectBySlug(slug) : undefined;
   const line = site.dialogue[lineIndex];
 
   useEffect(() => {
     if (slug && !openProject) navigate(libraryPath(search), { replace: true });
   }, [slug, openProject, navigate, search]);
+
+  useEffect(() => {
+    let timer = 0;
+    const arm = () => {
+      const current = new Date();
+      setPartOfDay(timeOfDay(current));
+      timer = window.setTimeout(arm, msUntilNextTimeOfDay(current));
+    };
+    timer = window.setTimeout(arm, msUntilNextTimeOfDay(new Date()));
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -178,18 +192,15 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
 
   const editJson = snapshot(character, placements);
 
+  const lampSrc = site.room.lamp.frames[lampLevel] ?? site.room.lamp.frames[0];
+  const windowSrc = site.room.window[partOfDay];
+
   return (
-    <div className="relative min-h-dvh">
-      <AssetImage
-        src={site.assets.background}
-        alt=""
-        label=""
-        hideOnFail
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-      />
+    <div className="room">
+      <div className="room-floor-bleed" />
       {site.ambient.vignette ? (
         <div
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 z-[2]"
           style={{
             background:
               "radial-gradient(ellipse at center, transparent 52%, rgba(59, 42, 38, 0.16) 100%)",
@@ -197,16 +208,14 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
         />
       ) : null}
       <Stage stageRef={stageRef}>
-        {site.ambient.dust && !reduced ? <DustParticles /> : null}
-        <h1 className="absolute top-[12%] left-[4%] z-10 font-serif text-[6.4cqi] leading-none font-medium">
-          {site.name}
-        </h1>
+        <SceneLayer src={site.room.floor} z={1} />
+        <SceneLayer src={windowSrc} z={2} />
         <div
-          className="pointer-events-none absolute z-0"
+          className="pointer-events-none absolute z-[3]"
           style={{
             left: `${site.wall.x}%`,
             width: `${site.wall.width}%`,
-            bottom: `${100 - site.bookshelf.y + 3}%`,
+            bottom: `${site.wall.bottom}%`,
           }}
         >
           <div className="relative">
@@ -225,7 +234,7 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
           </div>
         </div>
         <div
-          className="absolute z-[1]"
+          className="pointer-events-none absolute z-[4]"
           style={{
             left: `${site.bookshelf.x}%`,
             top: `${site.bookshelf.y}%`,
@@ -237,9 +246,26 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
             alt=""
             label={site.ui.shelfLabel}
             fetchPriority="high"
-            className="h-auto w-full drop-shadow-[0_18px_24px_rgba(59,42,38,0.18)]"
+            className="h-auto w-full"
           />
         </div>
+        <SceneLayer src={site.room.flower} z={5} />
+        <SceneLayer src={site.room.shelfObjects} z={6} />
+        <SceneLayer src={site.room.dog} z={7} />
+        <SceneLayer src={lampSrc} z={8} />
+        <button
+          type="button"
+          className="lamp-hit"
+          style={{
+            left: `${site.room.lamp.hit.x}%`,
+            top: `${site.room.lamp.hit.y}%`,
+            width: `${site.room.lamp.hit.width}%`,
+            height: `${site.room.lamp.hit.height}%`,
+          }}
+          aria-label="Lamp"
+          onClick={() => setLampLevel((current) => (current + 1) % site.room.lamp.frames.length)}
+        />
+        {site.ambient.dust && !reduced ? <DustParticles /> : null}
         {projects.map((project) => {
           const placement = placements[project.slug] ?? project.shelf;
           return (
@@ -321,6 +347,17 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
         <OpenBook project={openProject} reduced={reduced} onClose={() => navigate(libraryPath(search))} />
       ) : null}
     </div>
+  );
+}
+
+function SceneLayer({ src, z }: { src: string; z: number }) {
+  return (
+    <img
+      src={src}
+      alt=""
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      style={{ zIndex: z }}
+    />
   );
 }
 

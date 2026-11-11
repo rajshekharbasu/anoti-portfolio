@@ -1,3 +1,5 @@
+import type { TimeOfDay } from "../lib/timeOfDay";
+
 export type DialogueLink = {
   label: string;
   href: string;
@@ -69,6 +71,19 @@ export type SiteContent = {
     frame: string;
     x: number;
     width: number;
+    bottom: number;
+  };
+  room: {
+    wallpaper: string;
+    floor: string;
+    flower: string;
+    shelfObjects: string;
+    dog: string;
+    window: Record<TimeOfDay, string>;
+    lamp: {
+      frames: readonly [string, string, string, string];
+      hit: { x: number; y: number; width: number; height: number };
+    };
   };
   assets: {
     bookFrame: string;
