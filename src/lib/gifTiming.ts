@@ -3,8 +3,9 @@ export async function gifDurationMs(url: string): Promise<number> {
     const response = await fetch(url);
     if (!response.ok) return 2000;
     const bytes = new Uint8Array(await response.arrayBuffer());
+    if (bytes[0] !== 0x47 || bytes[1] !== 0x49 || bytes[2] !== 0x46) return 2000;
     const ms = readGifDuration(bytes);
-    return ms > 0 ? ms : 0;
+    return ms > 0 ? ms : 2000;
   } catch {
     return 2000;
   }

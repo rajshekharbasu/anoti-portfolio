@@ -11,14 +11,14 @@ type EnvelopeIntroProps = {
 
 type Phase = "sealed" | "opening" | "reading";
 
-const frameClass = "block w-full mix-blend-darken";
-const stillClass = "block w-full";
+const frameClass = "block w-full";
 
 export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
   const reduced = useReducedMotion();
   const { play } = useSiteSound();
   const [phase, setPhase] = useState<Phase>(replay && !reduced ? "opening" : replay ? "reading" : "sealed");
   const [gifMs, setGifMs] = useState(3010);
+  const [gifSrc, setGifSrc] = useState(() => freshGif(site.assets.envelopeOpen));
   const [showButton, setShowButton] = useState(false);
   const playedReplay = useRef(false);
   const paragraphs = site.openingStatement.split(/\n+/).filter((line) => line.trim().length > 0);
@@ -57,6 +57,7 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
       setPhase("reading");
       return;
     }
+    setGifSrc(freshGif(site.assets.envelopeOpen));
     setPhase("opening");
     window.setTimeout(() => setPhase("reading"), Math.max(400, gifMs - 40));
   }
@@ -83,10 +84,10 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
         <div className="relative w-full">
           {phase === "sealed" ? (
             <button type="button" className="press bob w-full" aria-label={site.ui.clickToOpen} onClick={open}>
-              <Frame src={site.assets.envelopeFirst} still />
+              <Frame src={site.assets.envelopeFirst} />
             </button>
           ) : null}
-          {phase === "opening" ? <Frame src={`${site.assets.envelopeOpen}?once=1`} /> : null}
+          {phase === "opening" ? <Frame key={gifSrc} src={gifSrc} /> : null}
           {phase === "reading" ? (
             <>
               <Frame src={site.assets.envelopeLast} />
@@ -129,12 +130,16 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
   );
 }
 
-function Frame({ src, still = false }: { src: string; still?: boolean }) {
+function Frame({ src }: { src: string }) {
   return (
     <span className="isolate block bg-paper">
-      <img src={src} alt="" className={still ? stillClass : frameClass} />
+      <img src={src} alt="" className={frameClass} />
     </span>
   );
+}
+
+function freshGif(url: string): string {
+  return `${url}?play=${Date.now()}`;
 }
 
 function finishIntro(event: { preventDefault: () => void }, enter: () => void) {

@@ -105,7 +105,7 @@ button {
 }
 
 .envelope-fit {
-  width: min(760px, 92vw, calc((100svh - 10rem) * 1.32));
+  width: min(760px, 92vw, calc((100svh - 10rem) * 4 / 3));
 }
 
 .lamp-hit {
