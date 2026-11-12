@@ -46,16 +46,28 @@ export function Character({
         top: `${y}%`,
         width: `${width}%`,
         touchAction: editMode ? "none" : "auto",
+        pointerEvents: editMode ? "auto" : "none",
       }}
       onPointerDown={editMode ? onPointerDown : undefined}
       onPointerMove={editMode ? onPointerMove : undefined}
       onPointerUp={editMode ? onPointerUp : undefined}
     >
-      <div className={breathe ? "breathe" : undefined}>
+      <div className={`character-hit relative ${breathe ? "breathe" : ""}`}>
+        <span className="lift block">
+          <AssetImage
+            src={src}
+            fallbackSrc={site.character.idleFallback}
+            alt=""
+            label={site.name}
+            fetchPriority="high"
+            className="pointer-events-none h-auto w-full"
+          />
+        </span>
         <button
           type="button"
-          className="character-hit relative block w-full"
-          aria-label={site.ui.sayHi}
+          className="pointer-events-auto absolute"
+          style={{ left: "30%", top: "0%", width: "58%", height: "98%" }}
+          aria-label={site.character.alt}
           aria-expanded={expanded}
           onMouseEnter={onShowTip}
           onMouseLeave={onHideTip}
@@ -66,16 +78,6 @@ export function Character({
             onOpen();
           }}
         >
-          <span className="lift block">
-            <AssetImage
-              src={src}
-              fallbackSrc={site.character.idleFallback}
-              alt={site.character.alt}
-              label={site.name}
-              fetchPriority="high"
-              className="h-auto w-full"
-            />
-          </span>
           <span
             role="tooltip"
             data-open={tipVisible ? "true" : "false"}
