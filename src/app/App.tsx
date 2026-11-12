@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes, useMatch, useSearchParams } from "react-router-dom";
 import { site } from "../content/site";
-import { projects } from "../content/projects";
 import { preloadAssets, wait } from "../hooks/usePreload";
 import { SoundProvider } from "../hooks/useSound";
 import { gifDurationMs } from "../lib/gifTiming";
@@ -99,26 +98,9 @@ function Experience() {
 function criticalUrls(): string[] {
   const urls = [
     site.loadingAnimation,
-    site.loadingFallback,
-    site.loadingLastFrame,
-    site.bookshelf.src,
-    site.assets.bookFrame,
-    site.assets.background,
-    site.room.floor,
-    site.room.flower,
-    site.room.shelfObjects,
-    site.room.dog,
-    site.room.window.day,
-    site.room.window.evening,
-    site.room.window.night,
-    ...site.room.lamp.frames,
     site.assets.envelopeClosed,
+    site.assets.envelopeFirst,
     site.assets.envelopeOpen,
-    site.assets.letter,
-    site.character.idle,
-    site.character.idleFallback,
-    site.character.talking,
-    ...projects.flatMap((project) => [project.shelf.image, project.cover]),
   ];
   return [...new Set(urls)];
 }
