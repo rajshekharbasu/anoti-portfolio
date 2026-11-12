@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { site } from "../content/site";
 
 const HOLD_MS = 2000;
@@ -12,21 +11,7 @@ type LoadingScreenProps = {
   onExited: () => void;
 };
 
-export function LoadingScreen({ leaving, loopMs, onExited }: LoadingScreenProps) {
-  const [holding, setHolding] = useState(false);
-
-  useEffect(() => {
-    if (loopMs < 0) return;
-    if (loopMs === 0) {
-      setHolding(true);
-      return;
-    }
-    const timeout = window.setTimeout(() => setHolding(true), loopMs);
-    return () => window.clearTimeout(timeout);
-  }, [loopMs]);
-
-  const src = holding ? site.loadingLastFrame : site.loadingAnimation;
-
+export function LoadingScreen({ leaving, onExited }: LoadingScreenProps) {
   return (
     <div
       className="loader fixed inset-0 z-[100] grid place-items-center bg-paper"
@@ -40,8 +25,7 @@ export function LoadingScreen({ leaving, loopMs, onExited }: LoadingScreenProps)
         style={{ width: "min(78vw, 1040px)", aspectRatio: `${CROP.w} / ${CROP.h}` }}
       >
         <img
-          key={src}
-          src={src}
+          src={site.loadingAnimation}
           alt=""
           className="absolute max-w-none"
           style={{

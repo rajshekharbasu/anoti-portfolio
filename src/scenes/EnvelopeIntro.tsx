@@ -16,9 +16,10 @@ const frameClass = "block w-full";
 export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
   const reduced = useReducedMotion();
   const { play } = useSiteSound();
-  const [phase, setPhase] = useState<Phase>(replay && !reduced ? "opening" : replay ? "reading" : "sealed");
+  const [phase, setPhase] = useState<Phase>(replay && reduced ? "reading" : "sealed");
   const [gifMs, setGifMs] = useState(3010);
-  const [gifSrc, setGifSrc] = useState(site.assets.envelopeOpen);
+  const [gifSrc, setGifSrc] = useState("");
+  const [gifReady, setGifReady] = useState(false);
   const gifBlob = useRef<Blob | null>(null);
   const [showButton, setShowButton] = useState(false);
   const playedReplay = useRef(false);
@@ -34,7 +35,11 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
       .then((blob) => {
         if (!active || !blob) return;
         gifBlob.current = blob;
-        if (replay) setGifSrc(URL.createObjectURL(blob));
+        if (replay && !reduced) {
+          setGifReady(false);
+          setGifSrc(URL.createObjectURL(blob));
+          setPhase("opening");
+        }
       })
       .catch(() => undefined);
     return () => {
@@ -67,6 +72,7 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
       return;
     }
     const blob = gifBlob.current;
+    setGifReady(false);
     setGifSrc(blob ? URL.createObjectURL(blob) : site.assets.envelopeOpen);
     setPhase("opening");
     window.setTimeout(() => setPhase("reading"), Math.max(400, gifMs - 40));
@@ -92,20 +98,31 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
 
       <div className="envelope-fit flex flex-col items-center">
         <div className="relative w-full">
-          {phase === "sealed" ? (
-            <button type="button" className="press bob w-full" aria-label={site.ui.clickToOpen} onClick={open}>
+          {phase === "sealed" || (phase === "opening" && !gifReady) ? (
+            <button
+              type="button"
+              className={phase === "sealed" && !replay ? "press bob w-full" : "block w-full"}
+              disabled={phase !== "sealed"}
+              aria-label={site.ui.clickToOpen}
+              onClick={open}
+            >
               <Frame src={site.assets.envelopeFirst} />
             </button>
           ) : null}
-          {phase === "opening" ? (
-            <div className="relative w-full">
-              <Frame src={site.assets.envelopeFirst} />
-              <img src={gifSrc} alt="" className="absolute inset-0 h-full w-full" />
-            </div>
+          {phase !== "sealed" && gifSrc ? (
+            <img
+              src={gifSrc}
+              alt=""
+              className={
+                phase === "opening" && !gifReady
+                  ? "absolute inset-0 h-full w-full"
+                  : "block w-full"
+              }
+              onLoad={() => setGifReady(true)}
+            />
           ) : null}
           {phase === "reading" ? (
             <>
-              <Frame src={site.assets.envelopeLast} />
               <div className="letter-hand absolute top-[9%] right-[14%] bottom-[12%] left-[15%] flex flex-col overflow-hidden text-ink">
                 {paragraphs.map((paragraph, index) => (
                   <p
@@ -135,7 +152,7 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
             </>
           ) : null}
         </div>
-        {phase === "sealed" ? (
+        {phase === "sealed" && !replay ? (
           <p className="mt-5 font-serif text-sm italic text-muted" aria-hidden="true">
             {site.ui.clickToOpen}
           </p>
