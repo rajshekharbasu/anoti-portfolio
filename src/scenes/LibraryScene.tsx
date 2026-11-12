@@ -209,7 +209,12 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
       ) : null}
       <Stage stageRef={stageRef}>
         <SceneLayer src={site.room.floor} z={1} />
-        <SceneLayer src={windowSrc} z={2} />
+        <img
+          src={windowSrc}
+          alt=""
+          className="pointer-events-none absolute h-full w-full"
+          style={{ zIndex: 2, left: "52%", top: "7.5%" }}
+        />
         <div
           className="pointer-events-none absolute z-[3]"
           style={{

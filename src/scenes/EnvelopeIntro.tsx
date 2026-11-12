@@ -18,7 +18,8 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
   const { play } = useSiteSound();
   const [phase, setPhase] = useState<Phase>(replay && !reduced ? "opening" : replay ? "reading" : "sealed");
   const [gifMs, setGifMs] = useState(3010);
-  const [gifSrc, setGifSrc] = useState(() => freshGif(site.assets.envelopeOpen));
+  const [gifSrc, setGifSrc] = useState(site.assets.envelopeOpen);
+  const gifBlob = useRef<Blob | null>(null);
   const [showButton, setShowButton] = useState(false);
   const playedReplay = useRef(false);
   const paragraphs = site.openingStatement.split(/\n+/).filter((line) => line.trim().length > 0);
@@ -28,10 +29,18 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
     void gifDurationMs(site.assets.envelopeOpen).then((ms) => {
       if (active) setGifMs(ms);
     });
+    void fetch(site.assets.envelopeOpen)
+      .then((response) => (response.ok ? response.blob() : null))
+      .then((blob) => {
+        if (!active || !blob) return;
+        gifBlob.current = blob;
+        if (replay) setGifSrc(URL.createObjectURL(blob));
+      })
+      .catch(() => undefined);
     return () => {
       active = false;
     };
-  }, []);
+  }, [replay]);
 
   useEffect(() => {
     if (!replay || reduced || phase !== "opening") return;
@@ -57,7 +66,8 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
       setPhase("reading");
       return;
     }
-    setGifSrc(freshGif(site.assets.envelopeOpen));
+    const blob = gifBlob.current;
+    setGifSrc(blob ? URL.createObjectURL(blob) : site.assets.envelopeOpen);
     setPhase("opening");
     window.setTimeout(() => setPhase("reading"), Math.max(400, gifMs - 40));
   }
@@ -87,7 +97,12 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
               <Frame src={site.assets.envelopeFirst} />
             </button>
           ) : null}
-          {phase === "opening" ? <Frame key={gifSrc} src={gifSrc} /> : null}
+          {phase === "opening" ? (
+            <div className="relative w-full">
+              <Frame src={site.assets.envelopeFirst} />
+              <img src={gifSrc} alt="" className="absolute inset-0 h-full w-full" />
+            </div>
+          ) : null}
           {phase === "reading" ? (
             <>
               <Frame src={site.assets.envelopeLast} />
@@ -136,10 +151,6 @@ function Frame({ src }: { src: string }) {
       <img src={src} alt="" className={frameClass} />
     </span>
   );
-}
-
-function freshGif(url: string): string {
-  return `${url}?play=${Date.now()}`;
 }
 
 function finishIntro(event: { preventDefault: () => void }, enter: () => void) {

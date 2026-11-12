@@ -4,7 +4,7 @@ import { site } from "../content/site";
 const HOLD_MS = 2000;
 
 // The drawing sits in a wide band inside a taller transparent frame.
-const CROP = { canvasW: 2752, canvasH: 2064, x: 222, y: 870, w: 2322, h: 466 };
+const CROP = { canvasW: 2752, canvasH: 2064, x: 180, y: 740, w: 2440, h: 680 };
 
 type LoadingScreenProps = {
   leaving: boolean;

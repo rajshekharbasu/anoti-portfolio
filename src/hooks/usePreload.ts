@@ -21,13 +21,11 @@ async function loadOne(url: string): Promise<void> {
   if (url.toLowerCase().endsWith(".gif")) {
     try {
       const response = await fetch(url);
-      if (response.ok) {
-        const blob = await response.blob();
-        warnIfLargeGif(url, blob.size);
-      }
+      if (response.ok) warnIfLargeGif(url, Number(response.headers.get("content-length") ?? 0));
     } catch {
       // A missing gif should not hold the loading screen.
     }
+    return;
   }
   await loadImage(url);
 }

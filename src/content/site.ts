@@ -23,9 +23,9 @@ export const site = {
     idleFallback: "/assets/scene/character-idle.png",
     talking: "/assets/scene/character-talking.gif",
     alt: "Anoti, waving from the bookshelf",
-    x: 55.5,
-    y: 8,
-    width: 24,
+    x: 43,
+    y: 7.5,
+    width: 42,
   },
   wall: {
     src: "/assets/kirby.GIF",
@@ -34,7 +34,7 @@ export const site = {
     width: 36,
     bottom: 59.4,
   },
-  loadingAnimation: "/assets/loading/new%20intro.GIF",
+  loadingAnimation: "/assets/loading/loading.gif",
   loadingFallback: "/assets/loading/loading-last.png",
   loadingLastFrame: "/assets/loading/loading-last.png",
   bookshelf: {
@@ -48,7 +48,7 @@ export const site = {
     floor: "/assets/scene/floor.png",
     flower: "/assets/scene/flower.png",
     shelfObjects: "/assets/scene/shelf-objects.png",
-    dog: "/assets/scene/maple.png",
+    dog: "/assets/scene/maple.gif",
     window: {
       day: "/assets/scene/window-day.png",
       evening: "/assets/scene/window-evening.png",
