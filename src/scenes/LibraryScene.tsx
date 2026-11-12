@@ -295,8 +295,7 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
           x={character.x}
           y={character.y}
           width={character.width}
-          talking={dialogue}
-          breathe={site.ambient.breathe && !reduced && !editMode}
+          breathe={false}
           editMode={editMode}
           expanded={dialogue}
           tipVisible={tipId === "character"}

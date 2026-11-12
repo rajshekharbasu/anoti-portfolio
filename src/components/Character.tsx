@@ -6,7 +6,6 @@ type CharacterProps = {
   x: number;
   y: number;
   width: number;
-  talking: boolean;
   breathe: boolean;
   editMode: boolean;
   expanded: boolean;
@@ -24,7 +23,6 @@ export function Character({
   x,
   y,
   width,
-  talking,
   breathe,
   editMode,
   expanded,
@@ -37,7 +35,7 @@ export function Character({
   onPointerMove,
   onPointerUp,
 }: CharacterProps) {
-  const src = talking ? site.character.talking : site.character.idle;
+  const src = site.character.idle;
 
   return (
     <div
