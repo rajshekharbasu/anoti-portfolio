@@ -55,19 +55,19 @@ export const site = {
     flower: "/assets/scene/flower.png",
     shelfObjects: "/assets/scene/shelf-objects.png",
     dog: "/assets/scene/maple.gif",
-    dogBox: { x: 46, y: 45, width: 54 },
+    dogBox: { x: 17.55, y: 9.87, width: 88.5 },
     sofa: {
       src: "/assets/scene/sofa-chair.png",
-      x: -6,
-      y: 38,
-      width: 44,
+      x: -22.98,
+      y: 47.57,
+      width: 35.15,
     },
     window: {
       day: "/assets/scene/window-crop-day.png",
       evening: "/assets/scene/window-crop-evening.png",
       night: "/assets/scene/window-crop-night.png",
     },
-    windowBox: { x: 81, y: 2.5, width: 17.5 },
+    windowBox: { x: 88.67, y: 3.86, width: 30.94 },
     lamp: {
       frames: [
         "/assets/scene/lamp-off.png",

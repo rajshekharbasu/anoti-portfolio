@@ -68,4 +68,14 @@ export const renderedPages: Record<string, ImagePage[]> = {
     { type: "image", src: '/assets/projects/gilded-affection/03.jpg', alt: 'Gilded affection, page 3' },
     { type: "image", src: '/assets/projects/gilded-affection/04.jpg', alt: 'Gilded affection, page 4' },
   ],
+  'sketchbook': [
+    { type: "image", src: '/assets/projects/sketchbook/01.jpg', alt: 'Sketchbook, page 1' },
+    { type: "image", src: '/assets/projects/sketchbook/02.jpg', alt: 'Sketchbook, page 2' },
+    { type: "image", src: '/assets/projects/sketchbook/03.jpg', alt: 'Sketchbook, page 3' },
+    { type: "image", src: '/assets/projects/sketchbook/04.jpg', alt: 'Sketchbook, page 4' },
+    { type: "image", src: '/assets/projects/sketchbook/05.jpg', alt: 'Sketchbook, page 5' },
+    { type: "image", src: '/assets/projects/sketchbook/06.jpg', alt: 'Sketchbook, page 6' },
+    { type: "image", src: '/assets/projects/sketchbook/07.jpg', alt: 'Sketchbook, page 7' },
+    { type: "image", src: '/assets/projects/sketchbook/08.jpg', alt: 'Sketchbook, page 8' },
+  ],
 };

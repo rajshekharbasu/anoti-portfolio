@@ -75,8 +75,8 @@ export function SpeechBubble({
       aria-label={site.name}
       ref={bubbleRef}
       tabIndex={-1}
-      className="absolute top-[24%] left-[78%] z-[80] w-[20%] min-w-56 outline-none max-[767px]:left-[58%] max-[767px]:w-[40%]"
-      style={{ transformOrigin: "left center" }}
+      className="absolute top-[30%] z-[80] min-w-56 outline-none max-[767px]:left-[54%] max-[767px]:w-[42%]"
+      style={{ left: "calc(98% - 20% - 2cm)", width: "calc(20% + 2cm)", transformOrigin: "left center" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
