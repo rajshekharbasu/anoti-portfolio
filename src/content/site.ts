@@ -55,10 +55,10 @@ export const site = {
     flower: "/assets/scene/flower.png",
     shelfObjects: "/assets/scene/shelf-objects.png",
     dog: "/assets/scene/maple.gif",
-    dogBox: { x: 17.55, y: 9.87, width: 88.5 },
+    dogBox: { x: 80,y: 77, width: 24 },
     sofa: {
       src: "/assets/scene/sofa-chair.png",
-      x: -22.98,
+      x: -25,
       y: 47.57,
       width: 35.15,
     },
@@ -67,7 +67,7 @@ export const site = {
       evening: "/assets/scene/window-crop-evening.png",
       night: "/assets/scene/window-crop-night.png",
     },
-    windowBox: { x: 88.67, y: 3.86, width: 30.94 },
+    windowBox: { x: 84, y: 10.86, width: 40 },
     lamp: {
       frames: [
         "/assets/scene/lamp-off.png",
