@@ -5,6 +5,11 @@ import type { DialogueLine } from "../content/types";
 import { lineText } from "../lib/guards";
 import { useFocusTrap } from "../hooks/useFocusTrap";
 
+const aboutClass = {
+  baskerville: "about-baskerville",
+  inter: "about-inter",
+} as const;
+
 type SpeechBubbleProps = {
   line: DialogueLine;
   canContinue: boolean;
@@ -70,7 +75,7 @@ export function SpeechBubble({
       aria-label={site.name}
       ref={bubbleRef}
       tabIndex={-1}
-      className="fixed top-[18%] right-5 z-[80] w-[min(300px,32vw)] outline-none max-[767px]:top-[24%] max-[767px]:w-[min(240px,46vw)]"
+      className="fixed top-[14%] left-[5%] z-[80] w-[min(440px,44vw)] outline-none max-[767px]:top-[18%] max-[767px]:left-4 max-[767px]:w-[min(360px,90vw)]"
       style={{ transformOrigin: "left center" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -104,7 +109,10 @@ export function SpeechBubble({
         >
           ×
         </button>
-        <p className="pr-8 font-serif text-[15px] leading-relaxed italic" aria-live="polite">
+        <p
+          className={`pr-8 text-[15px] leading-relaxed ${aboutClass[site.aboutFace]}`}
+          aria-live="polite"
+        >
           {text.slice(0, count)}
         </p>
         {done && links.length > 0 ? (
@@ -113,7 +121,7 @@ export function SpeechBubble({
               <a
                 key={link.href + link.label}
                 href={link.href}
-                className="press inline-flex min-h-11 items-center font-sans text-sm underline decoration-ink/40 underline-offset-4"
+                className="press inline-flex min-h-11 items-center text-sm underline decoration-ink/40 underline-offset-4"
                 {...(link.href.startsWith("http")
                   ? { target: "_blank", rel: "noreferrer" }
                   : {})}

@@ -14,10 +14,16 @@ export const BookPage = forwardRef<HTMLDivElement, BookPageProps>(function BookP
 ) {
   return (
     <div ref={ref} className="paper-page">
-      <div className="paper-page__inner">{renderSlot(slot, project, eager)}</div>
+      <div className={`paper-page__inner${pictureSlot(slot) ? " paper-page__inner--picture" : ""}`}>
+        {renderSlot(slot, project, eager)}
+      </div>
     </div>
   );
 });
+
+function pictureSlot(slot: BookSlot): boolean {
+  return slot.kind === "page" && (slot.page.type === "image" || slot.page.type === "gif");
+}
 
 function renderSlot(slot: BookSlot, project: Project, eager: boolean) {
   switch (slot.kind) {
@@ -112,7 +118,7 @@ function PagePicture({ src, alt, eager }: { src: string; alt: string; eager: boo
       src={src}
       alt={alt}
       loading={eager ? "eager" : "lazy"}
-      className="max-h-full w-full flex-1 object-contain"
+      className="h-full w-full object-contain"
       onError={() => setFailed(true)}
     />
   );

@@ -15,8 +15,8 @@ function isSingle(page: ProjectPage): page is Exclude<ProjectPage, SpreadPage> {
 }
 
 // Page-flip wants an even count so the last spread is not a single dangling page.
-export function buildSlots(pages: ProjectPage[]): BookSlot[] {
-  const slots: BookSlot[] = [{ kind: "concept" }];
+export function buildSlots(pages: ProjectPage[], includeConcept = true): BookSlot[] {
+  const slots: BookSlot[] = includeConcept ? [{ kind: "concept" }] : [];
 
   for (const page of pages) {
     if (isSpread(page)) {

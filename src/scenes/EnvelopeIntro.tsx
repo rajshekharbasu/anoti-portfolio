@@ -122,34 +122,28 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
             />
           ) : null}
           {phase === "reading" ? (
-            <>
-              <div className="letter-hand absolute top-[9%] right-[14%] bottom-[12%] left-[15%] flex flex-col overflow-hidden text-ink">
+            <div className="letter-hand absolute top-[8%] right-[13%] bottom-[11%] left-[14%] flex flex-col text-ink">
+              <div className="min-h-0 flex-1 overflow-y-auto">
                 {paragraphs.map((paragraph, index) => (
                   <p
                     key={paragraph}
-                    className="letter-line mt-[0.7em] text-[clamp(1rem,2.5vw,1.35rem)] leading-snug first:mt-0"
-                    style={{ animationDelay: reduced ? "0ms" : `${index * 280}ms` }}
+                    className="letter-line mt-[0.65em] text-[clamp(0.78rem,1.45vw,1.02rem)] leading-snug first:mt-0"
+                    style={{ animationDelay: reduced ? "0ms" : `${index * 220}ms` }}
                   >
                     {paragraph}
                   </p>
                 ))}
-                <p
-                  className="letter-line mt-[0.9em] text-[clamp(1rem,2.5vw,1.35rem)] leading-snug"
-                  style={{ animationDelay: reduced ? "0ms" : `${paragraphs.length * 280}ms` }}
-                >
-                  {site.signature}
-                </p>
-                {showButton ? (
-                  <button
-                    type="button"
-                    className="press letter-hand mt-auto inline-flex min-h-11 items-center self-start text-[clamp(1rem,2.4vw,1.3rem)] underline decoration-ink/40 underline-offset-8"
-                    onClick={(event) => finishIntro(event, onEnter)}
-                  >
-                    {site.ui.enterLibrary}
-                  </button>
-                ) : null}
               </div>
-            </>
+              {showButton ? (
+                <button
+                  type="button"
+                  className="press mt-2 inline-flex min-h-11 shrink-0 items-center self-start text-[clamp(0.85rem,1.5vw,1.05rem)] underline decoration-ink/40 underline-offset-8"
+                  onClick={(event) => finishIntro(event, onEnter)}
+                >
+                  {site.ui.enterLibrary}
+                </button>
+              ) : null}
+            </div>
           ) : null}
         </div>
         {phase === "sealed" && !replay ? (

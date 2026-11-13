@@ -66,9 +66,9 @@ button {
   bottom: 0;
   left: 0;
   z-index: 0;
-  /* Same top edge as the floor painted inside the scene (it starts 76% down the frame). */
-  height: calc(3.5svh + 0.2405 * min((100vw - 48px) * 0.75, 100svh - 8px - 3.5svh));
-  background: #ebb6c5;
+  /* Pink band in floor.png starts at 582/768 of the frame. */
+  height: calc(3.5svh + 0.2422 * min((100vw - 48px) * 0.75, 100svh - 8px - 3.5svh));
+  background: #e3b8c5;
   pointer-events: none;
 }
 
@@ -217,8 +217,140 @@ button {
   transform: rotateX(180deg);
 }
 
+@font-face {
+  font-family: Baskervville;
+  src: url("/fonts/Baskervville-Italic.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Exmouth;
+  src: url("/fonts/exmouth.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.site-wordmark {
+  position: absolute;
+  top: 0.85rem;
+  left: 1.15rem;
+  z-index: 40;
+  margin: 0;
+  color: #3b201f;
+  font-family: Exmouth, cursive;
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  line-height: 0.8;
+  pointer-events: none;
+}
+
 .letter-hand {
-  font-family: "If This Finds You", "Fraunces", serif;
+  font-family: Baskervville, "Libre Baskerville", Palatino, serif;
+  font-style: italic;
+  font-weight: 450;
+}
+
+.about-baskerville {
+  font-family: "Libre Baskerville", Baskervville, Palatino, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.about-inter {
+  font-family: Inter, "Segoe UI", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.book-title {
+  font-family: Baskervville, "Libre Baskerville", Palatino, serif;
+  font-style: italic;
+  font-weight: 450;
+}
+
+.book-side {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1px;
+  background: #f6f1e8;
+  box-shadow: 1px 2px 0 rgba(59, 32, 31, 0.28);
+}
+
+.book-side__spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 24%;
+}
+
+.book-side__pages {
+  position: absolute;
+  top: 6%;
+  right: 7%;
+  bottom: 6%;
+  left: 30%;
+  background: repeating-linear-gradient(
+    to bottom,
+    #f8f4ec 0 2px,
+    #d8cec2 2px 3px
+  );
+}
+
+.hover-tip {
+  position: fixed;
+  z-index: 90;
+  width: max-content;
+  max-width: min(16rem, 72vw);
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  border-radius: 2px;
+  background: var(--color-card);
+  padding: 0.35rem 0.55rem;
+  color: #3b201f;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: var(--shadow-paper);
+}
+
+.hover-tip-below {
+  transform: translate(-50%, 0);
+  max-width: min(20rem, 42vw);
+  text-align: left;
+}
+
+.hover-tip-wide {
+  white-space: normal;
+}
+
+.tip.tip-wrap {
+  white-space: normal;
+  width: min(16rem, 70vw);
+  text-align: center;
+  line-height: 1.35;
+}
+
+.tip.tip-below {
+  top: calc(100% + 8px);
+  bottom: auto;
+  left: 0;
+  width: min(18rem, 46vw);
+  transform-origin: top left;
+  text-align: left;
+}
+
+.tip.tip-below[data-open="false"] {
+  transform: scale(0.97);
+}
+
+.tip.tip-below[data-open="true"] {
+  transform: scale(1);
 }
 
 .letter-line {
@@ -292,6 +424,8 @@ button {
 .paper-page {
   background: var(--color-card);
   overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 .paper-page__inner {
@@ -302,6 +436,11 @@ button {
   overflow: auto;
   padding: 9% 10% 8%;
   container-type: inline-size;
+}
+
+.paper-page__inner--picture {
+  padding: 3%;
+  overflow: hidden;
 }
 
 .stf__wrapper {

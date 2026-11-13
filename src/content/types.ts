@@ -31,6 +31,8 @@ export type SpreadPage = { type: "full-spread"; src: string; alt: string };
 
 export type ProjectPage = TextPage | ImagePage | GifPage | CaptionPage | SpreadPage;
 
+export type BookFormat = "a5" | "a5-landscape" | "square" | "wip";
+
 export type Project = {
   slug: string;
   title: string;
@@ -41,6 +43,9 @@ export type Project = {
   bookColor: string;
   concept: string;
   pages: ProjectPage[];
+  format: BookFormat;
+  pdf: string;
+  hover: string;
 };
 
 export type SiteContent = {
@@ -73,13 +78,18 @@ export type SiteContent = {
     width: number;
     bottom: number;
   };
+  wordmark: string;
+  kirbyCaption: string;
+  aboutFace: "baskerville" | "inter";
   room: {
     wallpaper: string;
     floor: string;
     flower: string;
     shelfObjects: string;
     dog: string;
+    sofa: { src: string; x: number; y: number; width: number };
     window: Record<TimeOfDay, string>;
+    windowBox: { x: number; y: number; width: number };
     lamp: {
       frames: readonly [string, string, string, string];
       hit: { x: number; y: number; width: number; height: number };

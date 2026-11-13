@@ -2,19 +2,25 @@ import type { SiteContent } from "./types";
 
 // Swap copy here. Components read this file and do not keep their own sentences.
 export const site = {
-  name: "Anoti",
+  name: "anoti kinimi",
+  wordmark: "Anoti Adele Kinimi",
+  kirbyCaption:
+    "A short animation exploring the transition from a simple circle into Kirby’s full form and back again. Through movement, shape and small details, this animation explores how a basic shape can develop volume, expression and personality.",
+  aboutFace: "baskerville",
   openingStatement:
-    "Dear visitor,\n\nWelcome to my little library. Every book on these shelves holds a story I've drawn, designed, or dreamed up, some finished, some still being written.\n\nPull out any one that catches your eye, and if you'd like to know who's behind them, just say hi. I'm the one sitting on the shelf.\n\nMake yourself at home and stay as long as you like.",
-  signature: "love, Anoti",
+    "Welcome.\n\nI’m Anoti Adele Kinimi, a designer who works between words and images. I set type, make books, and draw the worlds that live inside them.\n\nEach book on this shelf is a project. Some I wrote and illustrated myself, and some began with someone else’s idea, but all of them are about telling a story well, through the page and the picture.\n\nIf you’re an independent publisher or studio looking for a designer who can lay out the page and imagine the world around it, I’d love to work with you. Pick any book to begin. Start with the top shelf, or wander.\n\nThe box marked WIP is for what I make next.\n\nThank you for visiting,\n\nLove,\n\nAnoti",
+  signature: "",
   dialogue: [
-    "Hi. I'm Anoti.",
-    "I illustrate stories, covers, and the occasional poster that ends up taped to a friend's wall.",
-    "Stay and talk, or take a book off the shelf.",
+    "Hi, I’m Anoti Adele Kinimi",
+    "I’m a third-year Visual Communication and Strategic Branding student at Srishti Manipal. I like working in the space between words and images, with typography, editorial design and illustration.",
+    "I enjoy experimenting with form and using storytelling to bring text and pictures together. Visual communication is my strongest skill, and creative thinking comes close behind it.",
+    "I’m comfortable with publication layout, typographic systems and digital illustration. Research and decision-making are still growing, and I’m working on making my choices more informed. I’m also learning to document my process, so you can see the thinking behind the work.",
+    "Next, I’d like to explore motion and animation. You can see my first experiments around this room.",
     {
-      text: "Want to say hello?",
+      text: "If you’d like to talk, you can find me at",
       links: [
-        { label: "Email", href: "mailto:hello@example.com" },
-        { label: "Instagram", href: "https://instagram.com/" },
+        { label: "anotiadele@gmail.com", href: "mailto:anotiadele@gmail.com" },
+        { label: "Instagram", href: "https://www.instagram.com/kininoti/" },
       ],
     },
   ],
@@ -22,7 +28,7 @@ export const site = {
     idle: "/assets/scene/character-idle.gif",
     idleFallback: "/assets/scene/character-idle.png",
     talking: "/assets/scene/character-talking.gif",
-    alt: "Anoti, waving from the bookshelf",
+    alt: "Anoti Adele Kinimi",
     x: 43,
     y: 7.5,
     width: 42,
@@ -49,11 +55,18 @@ export const site = {
     flower: "/assets/scene/flower.png",
     shelfObjects: "/assets/scene/shelf-objects.png",
     dog: "/assets/scene/maple.gif",
+    sofa: {
+      src: "/assets/scene/sofa-chair.png",
+      x: -17,
+      y: 51,
+      width: 26,
+    },
     window: {
       day: "/assets/scene/window-day.png",
       evening: "/assets/scene/window-evening.png",
       night: "/assets/scene/window-night.png",
     },
+    windowBox: { x: 52, y: 7.5, width: 100 },
     lamp: {
       frames: [
         "/assets/scene/lamp-off.png",

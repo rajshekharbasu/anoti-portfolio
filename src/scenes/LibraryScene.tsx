@@ -6,6 +6,7 @@ import { Character } from "../components/Character";
 import { DustParticles } from "../components/DustParticles";
 import { EditModeOverlay } from "../components/EditModeOverlay";
 import OpenBook from "../components/OpenBook";
+import { HoverTip } from "../components/HoverTip";
 import { ProjectsList } from "../components/ProjectsList";
 import { ShelfBook } from "../components/ShelfBook";
 import { SpeechBubble } from "../components/SpeechBubble";
@@ -39,6 +40,7 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
   const [search] = useSearchParams();
   const reduced = useReducedMotion();
   const stageRef = useRef<HTMLDivElement>(null);
+  const kirbyRef = useRef<HTMLButtonElement>(null);
   const dragRef = useRef<Drag | null>(null);
   const tipTimer = useRef(0);
   const instantTimer = useRef(0);
@@ -88,7 +90,7 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
           return (placement.width / 100) * width;
         }),
       );
-      setTinyBooks(narrowest < 32);
+      setTinyBooks(narrowest < 18);
     };
     measure();
     const observer = new ResizeObserver(measure);
@@ -131,6 +133,8 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
   }
 
   function goToProject(nextSlug: string) {
+    const project = projectBySlug(nextSlug);
+    if (!project || project.format === "wip" || project.pdf.length === 0) return;
     const params = new URLSearchParams(search);
     params.delete("intro");
     const query = params.toString();
@@ -207,16 +211,22 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
           }}
         />
       ) : null}
+      <p className="site-wordmark">{site.wordmark}</p>
       <Stage stageRef={stageRef}>
         <SceneLayer src={site.room.floor} z={1} />
         <img
           src={windowSrc}
           alt=""
-          className="pointer-events-none absolute h-full w-full"
-          style={{ zIndex: 2, left: "52%", top: "7.5%" }}
+          className="pointer-events-none absolute h-auto"
+          style={{
+            zIndex: 2,
+            left: `${site.room.windowBox.x}%`,
+            top: `${site.room.windowBox.y}%`,
+            width: `${site.room.windowBox.width}%`,
+          }}
         />
         <div
-          className="pointer-events-none absolute z-[3]"
+          className="absolute z-[3]"
           style={{
             left: `${site.wall.x}%`,
             width: `${site.wall.width}%`,
@@ -225,7 +235,7 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
         >
           <div className="relative">
             <div
-              className="absolute overflow-hidden"
+              className="pointer-events-none absolute overflow-hidden"
               style={{ left: "9.2%", top: "23.4%", width: "81.4%", height: "47.4%" }}
             >
               <img
@@ -235,9 +245,39 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
                 style={{ height: "200%" }}
               />
             </div>
-            <img src={site.wall.frame} alt="" className="relative block h-auto w-full" />
+            <img src={site.wall.frame} alt="" className="pointer-events-none relative block h-auto w-full" />
+            <button
+              ref={kirbyRef}
+              type="button"
+              className="absolute inset-0"
+              aria-label="Kirby animation"
+              onMouseEnter={() => showTip("kirby")}
+              onMouseLeave={hideTip}
+              onFocus={() => showTip("kirby")}
+              onBlur={hideTip}
+            />
+            <HoverTip
+              open={tipId === "kirby"}
+              instant={tipInstant}
+              anchor={kirbyRef}
+              placement="below"
+              wide
+            >
+              {site.kirbyCaption}
+            </HoverTip>
           </div>
         </div>
+        <img
+          src={site.room.sofa.src}
+          alt=""
+          className="pointer-events-none absolute h-auto"
+          style={{
+            zIndex: 3,
+            left: `${site.room.sofa.x}%`,
+            top: `${site.room.sofa.y}%`,
+            width: `${site.room.sofa.width}%`,
+          }}
+        />
         <div
           className="pointer-events-none absolute z-[4]"
           style={{
@@ -347,7 +387,7 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
           onClose={() => setProjectsOpen(false)}
         />
       ) : null}
-      {openProject ? (
+      {openProject && openProject.format !== "wip" ? (
         <OpenBook project={openProject} reduced={reduced} onClose={() => navigate(libraryPath(search))} />
       ) : null}
     </div>

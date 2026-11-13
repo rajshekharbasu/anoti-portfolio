@@ -16,7 +16,7 @@ type OpenBookProps = {
 };
 
 export default function OpenBook({ project, reduced, onClose }: OpenBookProps) {
-  const slots = buildSlots(project.pages);
+  const slots = buildSlots(project.pages, project.concept.trim().length > 0);
   const dialogRef = useRef<HTMLDivElement>(null);
   const shellRef = useRef<HTMLDivElement>(null);
   const mountRef = useRef<HTMLDivElement>(null);
@@ -24,8 +24,10 @@ export default function OpenBook({ project, reduced, onClose }: OpenBookProps) {
   const pageRef = useRef(0);
   const [page, setPage] = useState(0);
   const [backdropOn, setBackdropOn] = useState(false);
-  const [frameFailed, setFrameFailed] = useState(false);
   const { play } = useSiteSound();
+  const pageSize = pageBox(project.format);
+  const landscape = project.format === "a5-landscape";
+  const square = project.format === "square";
   useFocusTrap(true, dialogRef);
 
   useEffect(() => {
@@ -124,24 +126,30 @@ export default function OpenBook({ project, reduced, onClose }: OpenBookProps) {
       >
         {site.ui.close}
       </button>
-      <div className="flex w-[min(1040px,calc(100vw-2rem))] flex-col items-center max-[767px]:w-[min(440px,calc(100vw-1.5rem))]">
-        <div ref={shellRef} className="relative w-full" style={{ aspectRatio: "979 / 674" }}>
-          {frameFailed ? <SketchFrame /> : null}
-          <img
-            src={site.assets.bookFrame}
-            alt=""
-            className="pointer-events-none absolute inset-0 h-full w-full"
-            onError={() => setFrameFailed(true)}
-          />
-          <div ref={mountRef} className="absolute inset-[5.5%_5%_6.5%_5%]">
+      <div
+        className="flex flex-col items-center"
+        style={{
+          width: landscape
+            ? "min(1100px, calc(100vw - 2rem), calc((100svh - 9rem) * 2.84))"
+            : square
+              ? "min(980px, calc(100vw - 2rem), calc((100svh - 9rem) * 2))"
+              : "min(1040px, calc(100vw - 2rem))",
+        }}
+      >
+        <div
+          ref={shellRef}
+          className="relative w-full"
+          style={{ aspectRatio: `${pageSize.width * 2} / ${pageSize.height}` }}
+        >
+          <div ref={mountRef} className="absolute inset-0">
             <HTMLFlipBook
-              width={460}
-              height={640}
+              width={pageSize.width}
+              height={pageSize.height}
               size="stretch"
-              minWidth={280}
-              maxWidth={520}
-              minHeight={360}
-              maxHeight={760}
+              minWidth={square ? 360 : landscape ? 420 : 280}
+              maxWidth={square ? 640 : landscape ? 760 : 520}
+              minHeight={square ? 360 : landscape ? 280 : 360}
+              maxHeight={square ? 640 : landscape ? 540 : 760}
               drawShadow={!reduced}
               flippingTime={reduced ? 1 : 650}
               usePortrait
@@ -207,28 +215,18 @@ export default function OpenBook({ project, reduced, onClose }: OpenBookProps) {
   );
 }
 
-function SketchFrame() {
-  return (
-    <svg
-      viewBox="0 0 100 69"
-      className="pointer-events-none absolute inset-0 h-full w-full"
-      aria-hidden="true"
-    >
-      <rect x="1.2" y="1.4" width="97.6" height="66" rx="1.5" fill="#f4c6d3" />
-      <rect x="3.2" y="3" width="93.6" height="63" rx="1" fill="#fffaf3" />
-      <path
-        d="M4 6c8-3 16-3 22 0s12 3 20 0 14-3 22 0 16 2 28-1"
-        fill="none"
-        stroke="#3b2a26"
-        strokeWidth="0.7"
-      />
-      <path
-        d="M4 63c8 3 16 3 22 0s12-3 20 0 14 3 22 0 16-2 28 1"
-        fill="none"
-        stroke="#3b2a26"
-        strokeWidth="0.7"
-      />
-      <line x1="50" y1="4" x2="50" y2="65" stroke="#3b2a26" strokeWidth="0.45" />
-    </svg>
-  );
+function pageBox(format: Project["format"]): { width: number; height: number } {
+  switch (format) {
+    case "a5-landscape":
+      return { width: 640, height: 451 };
+    case "square":
+      return { width: 560, height: 560 };
+    case "a5":
+    case "wip":
+      return { width: 460, height: 640 };
+    default: {
+      const exhaustive: never = format;
+      return exhaustive;
+    }
+  }
 }

@@ -51,10 +51,16 @@ export function ProjectsList({ projects, onOpen, onClose }: ProjectsListProps) {
               <button
                 type="button"
                 className="press flex min-h-11 w-full items-baseline justify-between gap-4 py-3 text-left"
-                onClick={() => onOpen(project.slug)}
+                disabled={project.format === "wip"}
+                onClick={() => {
+                  if (project.format === "wip") return;
+                  onOpen(project.slug);
+                }}
               >
-                <span className="font-serif text-lg">{project.title}</span>
-                <span className="font-sans text-xs text-muted">{project.year}</span>
+                <span className="book-title text-lg">{project.title}</span>
+                {project.format === "wip" ? (
+                  <span className="book-title text-xs">{project.hover}</span>
+                ) : null}
               </button>
             </li>
           ))}
