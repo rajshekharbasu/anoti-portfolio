@@ -87,6 +87,7 @@ export type SiteContent = {
     flower: string;
     shelfObjects: string;
     dog: string;
+    dogBox: { x: number; y: number; width: number };
     sofa: { src: string; x: number; y: number; width: number };
     window: Record<TimeOfDay, string>;
     windowBox: { x: number; y: number; width: number };

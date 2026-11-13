@@ -118,7 +118,7 @@ function PagePicture({ src, alt, eager }: { src: string; alt: string; eager: boo
       src={src}
       alt={alt}
       loading={eager ? "eager" : "lazy"}
-      className="h-full w-full object-contain"
+      className="block h-full w-full object-cover"
       onError={() => setFailed(true)}
     />
   );

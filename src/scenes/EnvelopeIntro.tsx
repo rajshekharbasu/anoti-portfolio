@@ -122,12 +122,12 @@ export function EnvelopeIntro({ onEnter, replay = false }: EnvelopeIntroProps) {
             />
           ) : null}
           {phase === "reading" ? (
-            <div className="letter-hand absolute top-[8%] right-[13%] bottom-[11%] left-[14%] flex flex-col text-ink">
-              <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="letter-hand absolute top-[12%] right-[13%] bottom-[10%] left-[14%] flex flex-col text-ink">
+              <div className="flex min-h-0 flex-1 flex-col justify-evenly gap-[0.45em] overflow-y-auto">
                 {paragraphs.map((paragraph, index) => (
                   <p
                     key={paragraph}
-                    className="letter-line mt-[0.65em] text-[clamp(0.78rem,1.45vw,1.02rem)] leading-snug first:mt-0"
+                    className="letter-line text-[clamp(0.78rem,1.45vw,1.02rem)] leading-snug"
                     style={{ animationDelay: reduced ? "0ms" : `${index * 220}ms` }}
                   >
                     {paragraph}

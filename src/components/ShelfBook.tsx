@@ -76,10 +76,7 @@ export function ShelfBook({
             style={{ transform: `rotate(${placement.rotation}deg)`, transformOrigin: "bottom center" }}
           >
             <span className="lift relative block h-full w-full">
-              <span className="book-side">
-                <span className="book-side__spine" style={{ background: project.bookColor }} />
-                <span className="book-side__pages" />
-              </span>
+              <span className="book-side" style={{ background: project.bookColor }} />
             </span>
           </span>
         )}

@@ -18,6 +18,8 @@ import { warmImages } from "../hooks/usePreload";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { msUntilNextTimeOfDay, timeOfDay, type TimeOfDay } from "../lib/timeOfDay";
 
+const kirbyFrameInset = { top: 0.176, bottom: 0.234, left: 0.041 };
+
 type Drag = {
   id: string;
   pointerId: number;
@@ -260,7 +262,8 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
               open={tipId === "kirby"}
               instant={tipInstant}
               anchor={kirbyRef}
-              placement="below"
+              placement="left"
+              frameInset={kirbyFrameInset}
               wide
             >
               {site.kirbyCaption}
@@ -296,7 +299,17 @@ export function LibraryScene({ editMode, onViewLetter }: LibrarySceneProps) {
         </div>
         <SceneLayer src={site.room.flower} z={5} />
         <SceneLayer src={site.room.shelfObjects} z={6} />
-        <SceneLayer src={site.room.dog} z={7} />
+        <img
+          src={site.room.dog}
+          alt=""
+          className="pointer-events-none absolute h-auto"
+          style={{
+            zIndex: 7,
+            left: `${site.room.dogBox.x}%`,
+            top: `${site.room.dogBox.y}%`,
+            width: `${site.room.dogBox.width}%`,
+          }}
+        />
         <SceneLayer src={lampSrc} z={8} />
         <button
           type="button"

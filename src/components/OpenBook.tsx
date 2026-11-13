@@ -111,7 +111,7 @@ export default function OpenBook({ project, reduced, onClose }: OpenBookProps) {
       aria-modal="true"
       aria-label={project.title}
       tabIndex={-1}
-      className="fixed inset-0 z-[60] flex items-center justify-center outline-none"
+      className="fixed inset-0 z-[60] flex items-center justify-center overflow-hidden p-3 outline-none"
       style={{
         background: project.bookColor,
         opacity: backdropOn ? 1 : 0,
@@ -126,16 +126,13 @@ export default function OpenBook({ project, reduced, onClose }: OpenBookProps) {
       >
         {site.ui.close}
       </button>
-      <div
-        className="flex flex-col items-center"
-        style={{
-          width: landscape
-            ? "min(1100px, calc(100vw - 2rem), calc((100svh - 9rem) * 2.84))"
-            : square
-              ? "min(980px, calc(100vw - 2rem), calc((100svh - 9rem) * 2))"
-              : "min(1040px, calc(100vw - 2rem))",
-        }}
-      >
+      <div className="flex max-h-full flex-col items-center">
+        <div
+          className="flex w-full flex-col items-center"
+          style={{
+            width: `min(1040px, calc(100vw - 2.5rem), calc((100svh - 6.75rem) * ${pageSize.width * 2} / ${pageSize.height}))`,
+          }}
+        >
         <div
           ref={shellRef}
           className="relative w-full"
@@ -150,7 +147,7 @@ export default function OpenBook({ project, reduced, onClose }: OpenBookProps) {
               maxWidth={square ? 640 : landscape ? 760 : 520}
               minHeight={square ? 360 : landscape ? 280 : 360}
               maxHeight={square ? 640 : landscape ? 540 : 760}
-              drawShadow={!reduced}
+              drawShadow={false}
               flippingTime={reduced ? 1 : 650}
               usePortrait
               startZIndex={0}
@@ -209,6 +206,7 @@ export default function OpenBook({ project, reduced, onClose }: OpenBookProps) {
           >
             ›
           </button>
+        </div>
         </div>
       </div>
     </div>
